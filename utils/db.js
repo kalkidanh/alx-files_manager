@@ -1,7 +1,6 @@
 import { env } from 'process';
 import { MongoClient } from 'mongodb';
 
-
 export class DBClient {
   constructor() {
     const host = env.DB_PORT ? env.DB_PORT : '127.0.0.1';
@@ -10,15 +9,18 @@ export class DBClient {
     this.myClient = MongoClient(`mongodb://${host}:${port}/${database}`);
     this.myClient.connect();
   }
+
   isAlive() {
     return this.myClient.isConnected();
   }
+
   async nbUsers() {
     /* Return the number of documents in the users collection. */
     const myDB = this.myClient.db();
     const myCollection = myDB.collection('users');
     return myCollection.countDocuments();
   }
+
   async nbFiles() {
     /* Return the number of documents in the files collection. */
     const myDB = this.myClient.db();
